@@ -1,15 +1,15 @@
 package com.programacion4.unidad3ej4.config;
 
+import java.time.Instant;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.programacion4.unidad3ej4.config.exceptions.CustomException;
-
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import java.time.Instant;
-import java.util.List;
+import com.programacion4.unidad3ej4.config.exceptions.NotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -65,5 +65,18 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.internalServerError().body(response); 
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<BaseResponse<Object>> handleNotFound(NotFoundException ex){
+
+        BaseResponse<Object> response = BaseResponse.builder()
+                .message("No se econtro el recurso")
+                .errors(List.of("Contacte al administrador"))
+                .timestamp(Instant.now().toString())
+                .build();
+
+                return ResponseEntity.status(404).body(response);
+
     }
 }

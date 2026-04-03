@@ -8,4 +8,6 @@ import com.programacion4.unidad3ej4.feature.producto.models.Categoria;
 @Repository
 public interface ICategoriaRepository extends CrudRepository<Categoria, Long> {
     
+    boolean existsById(long id);
+
 }

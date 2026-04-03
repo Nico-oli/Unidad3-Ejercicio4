@@ -1,9 +1,10 @@
 package com.programacion4.unidad3ej4.feature.producto.controllers.post;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.programacion4.unidad3ej4.config.BaseResponse;
@@ -11,10 +12,8 @@ import com.programacion4.unidad3ej4.feature.producto.dtos.request.ProductoCreate
 import com.programacion4.unidad3ej4.feature.producto.dtos.response.ProductoResponseDto;
 import com.programacion4.unidad3ej4.feature.producto.services.interfaces.domain.IProductoCreateService;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import lombok.AllArgsConstructor;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/productos")
@@ -26,7 +25,7 @@ public class ProductoCreateController {
     @PostMapping
     public ResponseEntity<BaseResponse<ProductoResponseDto>> create(
         @Valid @RequestBody ProductoCreateRequestDto dto) {
-        return ResponseEntity.ok(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
             BaseResponse.ok(
                 productoCreateService.create(dto), 
                 "Producto creado correctamente"

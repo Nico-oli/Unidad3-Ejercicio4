@@ -1,5 +1,7 @@
 package com.programacion4.unidad3ej4.feature.producto.mappers;
 
+import java.util.List;
+
 import com.programacion4.unidad3ej4.feature.producto.dtos.request.ProductoCreateRequestDto;
 import com.programacion4.unidad3ej4.feature.producto.dtos.response.ProductoResponseDto;
 import com.programacion4.unidad3ej4.feature.producto.models.Categoria;
@@ -28,5 +30,14 @@ public class ProductoMapper {
                 .stock(producto.getStock())
                 .categoria(CategoriaMapper.toDto(producto.getCategoria()))
                 .build();
+    }
+
+    public static List<ProductoResponseDto> toResponseDtoList(List<Producto> lista){
+        
+        return lista.stream()
+        .filter(producto -> !producto.isEstaEliminado())
+        .map(ProductoMapper::toResponseDto)
+        .toList();
+
     }
 }
